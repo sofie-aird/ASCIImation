@@ -26,7 +26,9 @@ LinkedListNode<T>::LinkedListNode(T val, LinkedListNode<T>* next) {
 // //////// LinkedList /////////////////////////////////////////////////////////
 
 template <typename T> LinkedList<T>::LinkedList() {
-    throw runtime_error("Not yet implemented: LinkedList::LinkedList");
+    this->size = 0;
+    this->head = nullptr;
+    this-> tail = nullptr;
 }
 
 template <typename T> LinkedList<T>::~LinkedList() {
@@ -34,7 +36,15 @@ template <typename T> LinkedList<T>::~LinkedList() {
 }
 
 template <typename T> void LinkedList<T>::checkInvariants() {
-    throw runtime_error("Not yet implemented: LinkedList::checkInvariants");
+    int count = 0;
+    LinkedListNode<T> * temp = this->head;
+    while (temp != nullptr) {
+        count += 1;
+        temp = temp->next;
+    }
+    if (count != this->size) {
+        throw runtime_error("LinkedList::checkInvariants count doesn't equal size");
+    }
 }
 
 template <typename T> int LinkedList<T>::getSize() {
@@ -46,7 +56,11 @@ template <typename T> bool LinkedList<T>::isEmpty() {
 }
 
 template <typename T> T LinkedList<T>::getFirst() {
-    throw runtime_error("Not yet implemented: LinkedList::getFirst");
+    if (this->size == 0) {
+        throw runtime_error("LinkedList::getFirst has no nodes in the list.");
+    } else {
+        return this->head->value;
+    }
 }
 
 template <typename T> T LinkedList<T>::getLast() {
@@ -58,15 +72,37 @@ template <typename T> T LinkedList<T>::get(int index) {
 }
 
 template <typename T> void LinkedList<T>::insertFirst(T value) {
-    throw runtime_error("Not yet implemented: LinkedList::insertFirst");
+    LinkedListNode<T>* node = new LinkedListNode<T>(value, this->head);
+    this->head = node;
+    if (this->size == 0) {
+        this->tail = node;
+    }
+    size++;
 }
 
 template <typename T> void LinkedList<T>::insertLast(T value) {
-    throw runtime_error("Not yet implemented: LinkedList::insertLast");
+    LinkedListNode<T>* node = new LinkedListNode<T>(value, this->head);
+    this->tail = node;
+    if (this->size == 0) {
+        this->head = node;
+    }
+    size++;
 }
 
 template <typename T> T LinkedList<T>::removeFirst() {
-    throw runtime_error("Not yet implemented: LinkedList::removeFirst");
+    if (this->size == 0) {
+        throw runtime_error("LinkedList::removeFirst there are no nodes in the list.");
+    } else if (size == 1) {
+        delete this->head;
+        this->head = nullptr;
+        this->tail = nullptr;
+    } else {
+        LinkedListNode<T> * temp = this->head->next;
+        this->head = temp;
+        delete temp;
+    }
+    size--;
+    return this->head->value;
 }
 
 template <typename T> T LinkedList<T>::removeLast() {
