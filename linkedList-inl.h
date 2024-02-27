@@ -32,9 +32,15 @@ template <typename T> LinkedList<T>::LinkedList() {
 }
 
 template <typename T> LinkedList<T>::~LinkedList() {
-    LinkedListNode<T> * temp = this->head;
-    while (temp->next != nullptr;) {
-        delete temp;
+    if (this->size == 0) {
+        throw runtime_error("LinkedList::~LinkedList there are no nodes in the list.");
+    } else{
+        while (this->size != 0){
+            for (int i=0; i<this->size; i++){
+                LinkedListNode<T> * temp = this->head;
+            }
+            this->size --; 
+        }
     }
     
 }
@@ -99,7 +105,7 @@ template <typename T> void LinkedList<T>::insertFirst(T value) {
     if (this->size == 0) {
         this->tail = node;
     }
-    size++;
+    this->size++;
 }
 
 template <typename T> void LinkedList<T>::insertLast(T value) {
@@ -108,7 +114,7 @@ template <typename T> void LinkedList<T>::insertLast(T value) {
     if (this->size == 0) {
         this->head = node;
     }
-    size++;
+    this->size++;
 }
 
 template <typename T> T LinkedList<T>::removeFirst() {
@@ -124,7 +130,7 @@ template <typename T> T LinkedList<T>::removeFirst() {
         this->head = this->head->next;
         delete temp;
     }
-    size--;
+    this->size--;
     return val;
 }
 
@@ -143,7 +149,7 @@ template <typename T> T LinkedList<T>::removeLast() {
         }
         temp->next = nullptr;
         this->tail = temp;
-        size--;
+        this->size--;
         delete temp;
     } 
     return val;
