@@ -18,7 +18,22 @@
 using namespace std;
 
 int main(int argc, char** argv) {
-    // TODO: write your program here
+  if ((argc < 2) || (argc > 3)) {
+    cout << "Not correct amount of arguments" << endl;  //If there aren't 4 arguments, give error message
+  }
+  if (argc == 3){ 
+    string reverse = argv[1];
+    if (reverse != "--reverse"){
+      cout << "Not correct argument" <<endl; 
+    }
+  }
 
-    return 0;
+  List<pair<int, string>>* mylist = loadMovie(argv[1]); 
+  playMovie(mylist); 
+
+  delete mylist; 
+
+
+
+  return 0;
 }

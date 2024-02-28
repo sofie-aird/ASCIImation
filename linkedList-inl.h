@@ -33,15 +33,16 @@ template <typename T> LinkedList<T>::LinkedList() {
 
 template <typename T> LinkedList<T>::~LinkedList() {
     if (this->size == 0) {
-        throw runtime_error("LinkedList::~LinkedList there are no nodes in the list.");
+        return;
     } else{
-        while (this->size != 0){
-            for (int i=0; i<this->size; i++){
-                LinkedListNode<T> * temp = this->head;
-            }
-            this->size --; 
+        LinkedListNode<T> * current = this->head;
+        for (int i=0; i<this->size; i++) {
+            LinkedListNode<T> * next = current->next;
+            //delete current; 
+            LinkedListNode<T> * current = next;
         }
     }
+    this->size = 0;
     
 }
 
@@ -90,29 +91,38 @@ template <typename T> T LinkedList<T>::get(int index) {
         throw runtime_error("LinkedList::get index is out of range.");
     } else {
         LinkedListNode<T> * temp = this->head;
-        int count = 0;
-        while (count != index) {
+        for (int i=0; i<index; i++) {
             temp = temp->next;
-            count++;
         }
         return temp->value;
     }
 }
 
 template <typename T> void LinkedList<T>::insertFirst(T value) {
-    LinkedListNode<T>* node = new LinkedListNode<T>(value, this->head);
-    this->head = node;
     if (this->size == 0) {
+        LinkedListNode<T>* node = new LinkedListNode<T>(value, nullptr);
+        this->head = node;
         this->tail = node;
+    } else {
+        LinkedListNode<T>* node = new LinkedListNode<T>(value, this->head);
+        LinkedListNode<T> * temp = this->head;
+        node->next = temp; 
+        this->head = node; 
     }
+   
     this->size++;
 }
 
+
 template <typename T> void LinkedList<T>::insertLast(T value) {
-    LinkedListNode<T>* node = new LinkedListNode<T>(value, this->head);
-    this->tail = node;
+    LinkedListNode<T>* node = new LinkedListNode<T>(value, nullptr);
     if (this->size == 0) {
         this->head = node;
+        this->tail = node;
+    } else {
+        LinkedListNode<T> * temp = this->tail;
+        temp->next = node; 
+        this->tail = node; 
     }
     this->size++;
 }
@@ -123,6 +133,7 @@ template <typename T> T LinkedList<T>::removeFirst() {
     } 
     T val = this->head->value;
     if (this->size == 1) {
+        delete this->head; 
         this->head = nullptr;
         this->tail = nullptr;
     } else {
@@ -140,17 +151,20 @@ template <typename T> T LinkedList<T>::removeLast() {
     }
     T val = this->tail->value; 
     if (this->size == 1) {
+        delete this->head; 
         this->head = nullptr;
         this->tail = nullptr;
+        this->size = 0; 
     } else {
         LinkedListNode<T> * temp = this->head;
-        while (temp->next->next != nullptr) {
+        while (temp->next != this->tail) {
             temp = temp->next;
         }
         temp->next = nullptr;
-        this->tail = temp;
+        LinkedListNode<T> * temptail = this->tail;
+        this->tail = temp; 
+        delete temptail; 
         this->size--;
-        delete temp;
     } 
     return val;
 }
