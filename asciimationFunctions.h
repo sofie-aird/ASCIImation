@@ -32,3 +32,10 @@ List<pair<int, string>>* loadMovie(string filename);
  * @param list The list of frame data to use when playing the video.
  */
 void playMovie(List<pair<int, string>>* list);
+
+/**
+ * This function plays an ASCIImation in reverse from 
+ * the provided list.
+ * @param list The list of frame data to use when playing the video.
+*/
+void playReverse(List<pair<int, string>>* list);

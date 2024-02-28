@@ -36,10 +36,10 @@ template <typename T> LinkedList<T>::~LinkedList() {
         return;
     } else{
         LinkedListNode<T> * current = this->head;
-        for (int i=0; i<this->size; i++) {
+        while (current != nullptr) {
             LinkedListNode<T> * next = current->next;
-            //delete current; 
-            LinkedListNode<T> * current = next;
+            delete current; 
+            current = next;
         }
     }
     this->size = 0;

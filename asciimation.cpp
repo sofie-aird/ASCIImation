@@ -16,22 +16,28 @@
 #include "linkedList.h"
 
 using namespace std;
+using std::runtime_error;
 
 int main(int argc, char** argv) {
   if ((argc < 2) || (argc > 3)) {
-    cout << "Not correct amount of arguments" << endl;  //If there aren't 4 arguments, give error message
+    throw runtime_error("Not the correct amount of arguments (must have 2-3)");  //If there aren't 4 arguments, give error message
   }
   if (argc == 3){ 
     string reverse = argv[1];
     if (reverse != "--reverse"){
-      cout << "Not correct argument" <<endl; 
+      throw runtime_error("2nd argument must be --reverse if there are 3.");
+    } else {
+      List<pair<int, string>>* mylist = loadMovie(argv[2]); 
+      playReverse(mylist); 
+      delete mylist;
     }
+  } else {
+    List<pair<int, string>>* mylist = loadMovie(argv[1]); 
+    playMovie(mylist); 
+    delete mylist;
   }
 
-  List<pair<int, string>>* mylist = loadMovie(argv[1]); 
-  playMovie(mylist); 
-
-  delete mylist; 
+ 
 
 
 
